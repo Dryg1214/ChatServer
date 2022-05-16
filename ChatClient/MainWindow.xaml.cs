@@ -27,8 +27,11 @@ namespace ChatClient
 
         private void login_Click(object sender, RoutedEventArgs e)
         {
-
-            MessageBox.Show("Меня нажали я ЛОГИН");
+            
+            var mainWindow = new Window1();
+            mainWindow.Show();
+            this.Close();
+            //MessageBox.Show("Меня нажали я ЛОГИН");
         }
 
         private void register_Click(object sender, RoutedEventArgs e)

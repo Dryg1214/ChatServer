@@ -44,7 +44,7 @@ namespace Chat
                 }
                 else if (message.StartsWith("-"))
                 {
-                    await connection.InvokeAsync("JoinGroup", username, message.Split('-', ' ')[1]);
+                    await connection.InvokeAsync("LeaveGroup", username, message.Split('-', ' ')[1]);
                 }
 
                 else if (message.StartsWith("#"))
