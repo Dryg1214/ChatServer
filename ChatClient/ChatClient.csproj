@@ -14,6 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+	<Resource Include="Images\IconSender1.jpg">
+	   <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	</Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="View\" />
   </ItemGroup>
 

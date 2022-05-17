@@ -5,19 +5,45 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ChatClient.Model;
+using ChatClient.Command;
 
 namespace ChatClient.ViewModel
 {
-    class MainViewModel
+    class MainViewModel : ObservableObject
     {
         public ObservableCollection<MessageModel> Messages { get; set; }
 
         public ObservableCollection<UserModel> Users { get; set; }
 
+        public RelayCommand SendCommand { get; set; }
+        public UserModel SelectedChat { get; set; }
+
+        private string _message;
+
+        public string Message
+        {
+            get { return _message; }
+            set 
+            { 
+                _message = value;
+                OnPropertyChanged();
+            }
+        }
         public MainViewModel()
         {
             Messages = new ObservableCollection<MessageModel>();
             Users = new ObservableCollection<UserModel>();
+
+            SendCommand = new RelayCommand(x =>
+            {
+                Messages.Add(new MessageModel
+                {
+                    Message = Message,
+                    FirstMessage = false
+                });
+
+                Message = "";
+            });
 
             Messages.Add(new MessageModel
             {

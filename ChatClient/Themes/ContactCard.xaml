@@ -27,7 +27,7 @@
                                 <Label Content="{Binding Username}"
                                        Foreground="White"/>
                                 <Label Content="{Binding LastMessage}"
-                                       Foreground="Gray"
+                                       Foreground="LightGray"
                                        FontSize="10"/>
                                 
 

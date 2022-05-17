@@ -9,8 +9,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Themes/ContactCard.xaml"/>
+                <ResourceDictionary Source="./Themes/MessageBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
+        <!--BitmapImage x:Key="myImage" UriSource="Images/IconSender.png"/-->
     </Application.Resources>
 </Application>

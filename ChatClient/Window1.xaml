@@ -133,5 +133,58 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
+
+        <Grid Grid.Column="1"
+              Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+
+            <Border BorderBrush="#2F3136"
+                    BorderThickness="0,0,0,2">
+                <Grid HorizontalAlignment="Stretch"
+                      Margin="8">
+
+                    <Label Content="@Username/@Usernames"
+                            FontWeight="Bold"
+                           Foreground="White"
+                            Margin="5,0,5,0"
+                            VerticalAlignment="Center"/>
+
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Row="1"
+                           Height="50"
+                           Background="White"
+                           Text="Message"
+                           Style="{StaticResource MessageBox}"
+                           Grid.ColumnSpan="2"
+                           Margin="5,0,5,0"/>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            Margin="0,0,16,0">
+
+                    <Image Source="Images/IconSender1.jpg"
+                               Width="20" Height="20"
+                               RenderOptions.BitmapScalingMode="Fant"
+                               Margin="5,5,16,0"/>
+
+                </StackPanel>
+
+            </Grid>
+            
+            
+        </Grid>
     </Grid>
 </Window>
