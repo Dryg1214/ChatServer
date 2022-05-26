@@ -20,6 +20,7 @@ namespace ChatClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        int aboba = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace ChatClient
         private void login_Click(object sender, RoutedEventArgs e)
         {
             
-            var mainWindow = new Window1();
+            var mainWindow = new Window1(login1.Text);
             mainWindow.Show();
             this.Close();
             //MessageBox.Show("Меня нажали я ЛОГИН");

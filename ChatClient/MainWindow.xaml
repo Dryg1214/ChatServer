@@ -38,7 +38,8 @@
             
             <StackPanel Grid.Row="1" >
                 <StackPanel Orientation="Horizontal">
-                    <TextBox FontFamily="Helvetica"
+                    <TextBox x:Name="login1" FontFamily="Helvetica"
+                             x:FieldModifier="public"
                              FontWeight="Light"
                              Text="Username"
                              FontSize="20"

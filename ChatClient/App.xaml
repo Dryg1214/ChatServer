@@ -8,8 +8,10 @@
         <!--BitmapImage x:Key="myImage" UriSource="Images/я2.png"/-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/ChatItem.xaml"/>
                 <ResourceDictionary Source="./Themes/ContactCard.xaml"/>
                 <ResourceDictionary Source="./Themes/MessageBox.xaml"/>
+                <ResourceDictionary Source="./Themes/MessageCreateChat.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         <!--BitmapImage x:Key="myImage" UriSource="Images/IconSender.png"/-->

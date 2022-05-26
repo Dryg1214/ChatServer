@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="plus1.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\я2.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -17,10 +21,15 @@
 	<Resource Include="Images\IconSender1.jpg">
 	   <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	</Resource>
+	<Resource Include="plus1.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="View\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.5" />
   </ItemGroup>
 
 </Project>
