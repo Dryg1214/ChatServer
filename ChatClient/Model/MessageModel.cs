@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatClient.Model
 {
-    internal class MessageModel
+    public class MessageModel
     {
         public string Username { get; set; }
         public string Message { get; set; }

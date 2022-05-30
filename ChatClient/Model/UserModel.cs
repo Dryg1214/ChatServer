@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChatClient.Model
 {
-    internal class UserModel
+    public class UserModel
     {
         public string Username { get; set; }
 

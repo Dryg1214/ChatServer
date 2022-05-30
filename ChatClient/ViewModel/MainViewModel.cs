@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace ChatClient.ViewModel
 {
-    class MainViewModel : ObservableObject
+    public class MainViewModel : ObservableObject
     {
         public ObservableCollection<MessageModel> Messages { get; set; }
 
@@ -44,16 +44,26 @@ namespace ChatClient.ViewModel
             }
         }
         //static async Task
+        public void AddChat(string users)
+        {
+            Users.Add(new UserModel
+            {
+                Username = users,
+                Messages = Messages
+            });
+        }
+        
         public MainViewModel()
         {
             Messages = new ObservableCollection<MessageModel>();
             Users = new ObservableCollection<UserModel>();
-
+            Chats = new ObservableCollection<UserModel>();
             Users.Add(new UserModel
             {
-                Username = $"Aboba",
+                Username = $"Hello",
                 Messages = Messages
             });
+
 
             Action();
             /*var username = "Aboba_Vovk";
@@ -139,9 +149,9 @@ namespace ChatClient.ViewModel
             var username = " ";
             foreach (Window window in Application.Current.Windows)
             {
-                if (window.GetType() == typeof(MainWindow))
+                if (window.GetType() == typeof(LoginWindow))
                 {
-                    username = (window as MainWindow).login1.Text;
+                    username = (window as LoginWindow).login1.Text;
                 }
             }
             

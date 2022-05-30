@@ -10,34 +10,62 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ChatClient.ViewModel;
 
 namespace ChatClient
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для Window1.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        int aboba = 0;
+        public string username;
         public MainWindow()
         {
             InitializeComponent();
         }
-
-        private void login_Click(object sender, RoutedEventArgs e)
+        public MainWindow(string user)
         {
+            InitializeComponent();
+            username = user;
+        }
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+
+        private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void WindowStateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current != WindowState.Minimized)
+            {
+                Application.Current.WindowState = WindowState.Maximized;
+                return;
+            }
+            if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            //else
+            //  Application.Current.MainWindow.WindowState = WindowState.Normal;
+        }
+
+        private void PlusChatClick(object sender, MouseButtonEventArgs e)
+        {
+//((MainViewModel)DataContext).Chats
+            var Window = new CreateChatWindow();
+            Window.Show();
             
-            var mainWindow = new Window1(login1.Text);
-            mainWindow.Show();
-            this.Close();
-            //MessageBox.Show("Меня нажали я ЛОГИН");
         }
 
-        private void register_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Меня нажали я Регистрация");
-        }
     }
 }

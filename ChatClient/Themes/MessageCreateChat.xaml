@@ -24,7 +24,7 @@
                                      Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Margin="8,0,0,0">
                                 <!--TextBox.InputBindings>
-                                    <KeyBinding Command="{Binding SendCommand}" Key="Return"/>
+                                    <KeyBinding Command="{Binding CreateChatCommand}/>
                                 </TextBox.InputBindings-->
                             </TextBox>
 

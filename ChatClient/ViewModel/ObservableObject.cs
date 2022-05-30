@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace ChatClient.ViewModel
 {
-    class ObservableObject : INotifyPropertyChanged
+    public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
