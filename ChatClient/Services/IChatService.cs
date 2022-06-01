@@ -9,10 +9,12 @@ namespace ChatClient.Services
     public interface IChatService
     {
         Task ConnectAsync();
-        Task Login(string user);
+        Task<Dictionary<string, string>> LoginAsync(string name);
         Task JoinGroup(string user, string groupName);
         Task LeaveGroup(string user, string groupName);
         Task SendMessageToGroup(string groupName, string user, string message);
         Task SendMessageToUser(string user, string message, string receiver);
+
+
     }
 }

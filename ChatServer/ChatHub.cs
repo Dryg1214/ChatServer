@@ -15,22 +15,21 @@ namespace ChatServer
         {
             return Clients.Others.SendAsync("ReceiveMessage", user, message);
         }
-        public Task Login(string user)
-        {
-            Connections[user] = Context.ConnectionId;
-            return Clients.Others.SendAsync("ReceiveMessage", user, $"{user} is connected");
-        }
-        public List<string> LoginAsync(string name)
+
+        //public Task Login(string user)
+        //{
+        //    Connections[user] = Context.ConnectionId;
+        //    return Clients.Others.SendAsync("ReceiveMessage", user, $"{user} is connected");
+        //}
+        public Dictionary<string, string> Login(string name)
         {
             if (!Connections.ContainsKey(name))
             {
                 Console.WriteLine($"++ {name} logged in");
-                List<string> users = new List<string>(Connections.Values);
+                Dictionary<string, string> users = Connections;
                 
                 var added = Connections.TryAdd(name, Context.ConnectionId);
                 if (!added) return null;
-                Clients.Caller. = name;
-                Clients.CallerState.UserName = name;
                 return users;
             }
             return null;

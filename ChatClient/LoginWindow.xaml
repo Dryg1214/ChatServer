@@ -41,7 +41,7 @@
                     <TextBox x:Name="login1" FontFamily="Helvetica"
                              x:FieldModifier="public"
                              FontWeight="Light"
-                             Text="Username"
+                             Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
                              FontSize="20"
                              HorizontalAlignment="Center"
                              Foreground="White"
@@ -51,8 +51,12 @@
                              HorizontalContentAlignment="Left"
                              Opacity="0.5"
                              Height="25"
-                             Margin="63,0,0,0"/>
-                    
+                             Margin="63,0,0,0">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding LoginCommand}" Key="Return"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+
                 </StackPanel>
             
                 <Border Width="250"
@@ -62,7 +66,7 @@
 
 
 
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <!--StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                     <PasswordBox FontFamily="Helvetica"
                                  FontWeight="Light"
                                  Password="Password"
@@ -77,15 +81,14 @@
                                  Height="25"
                                  Margin="63,0,0,0"/>
                
-                </StackPanel>
+                </StackPanel-->
                 <Border Width="250"
                             Height="2"
                             Background="White"
                             Opacity="0.5"/>
 
-
                 <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                    <Button x:Name="login" Width="100" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="login_Click"/>
+                    <Button x:Name="login" Width="100" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="login_Click" Command="{Binding LoginCommand}"/>
                     <Button x:Name="register" Width="100" Height="40" Content="REGISTER" Click="register_Click"/>
                 </StackPanel>
 

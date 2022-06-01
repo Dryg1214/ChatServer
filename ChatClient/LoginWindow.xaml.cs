@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using ChatClient.Command;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +27,8 @@ namespace ChatClient
         {
             InitializeComponent();
         }
-
         private void login_Click(object sender, RoutedEventArgs e)
         {
-            
             var mainWindow = new MainWindow(login1.Text);
             mainWindow.Show();
             this.Close();

@@ -59,8 +59,21 @@ namespace ChatClient.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private string _userName;
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                _userName = value;
+                OnPropertyChanged();
+            }
+        }
         public MainViewModel()
         {
+            LoginCommand = new RelayCommandAsync(() => Login(), (o) => CanLogin());
+
             Messages = new ObservableCollection<MessageModel>();
             Users = new ObservableCollection<UserModel>();
             Chats = new ObservableCollection<UserModel>();
@@ -165,29 +178,26 @@ namespace ChatClient.ViewModel
         #endregion
 
         #region Login Command
-        private ICommand _loginCommand;
-        public ICommand LoginCommand()
-        {
-            get
-            {
-                return _loginCommand ?? (_loginCommand =
-                    new RelayCommandAsync(() => Login(), (o) => CanLogin()));
-            }
-        }
-        private async Task<bool> Login(string username)
+        
+        public ICommand LoginCommand { get; }
+        
+        private async Task<bool> Login()
         {
             try
             {
-                List<User> users = new List<User>();
-                users = await chatService.Login(username);
+                Dictionary<string, string> users = new Dictionary<string, string>();
+                users = await chatService.LoginAsync(_userName);
                 if (users != null)
                 {
-                    var messages = new ObservableCollection<MessageModel>();
-                    users.ForEach(u => Users.Add(new UserModel
+                    foreach (var user in users)
                     {
-                        Username = username,
-                        Messages = messages
-                    }));
+                        var messages = new ObservableCollection<MessageModel>();
+                        Users.Add(new UserModel
+                        {
+                            Username = user.Key,
+                            Messages = messages
+                        });
+                    }
                     return true;
                 }
                 else
@@ -200,9 +210,9 @@ namespace ChatClient.ViewModel
             catch (Exception) { return false; }
         }
 
-        private bool CanLogin(string username)
+        private bool CanLogin()
         {
-            return !string.IsNullOrEmpty(username) && username.Length >= 2 && IsConnected;
+            return !string.IsNullOrEmpty(UserName) && UserName.Length >= 2 && IsConnected;
         }
         #endregion
 

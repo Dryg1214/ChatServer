@@ -13,7 +13,7 @@ namespace ChatClient.Model
 
         public ObservableCollection<MessageModel>? Messages { get; set; }
 
-        public string? LastMessage //=> null ?? Messages.Last().Message;
+        public string? LastMessage
         {
             get
             {

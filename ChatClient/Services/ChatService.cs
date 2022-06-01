@@ -38,9 +38,9 @@ namespace ChatClient.Services
 
             await _connection.StartAsync();
         }
-        public async Task Login(string user)
+        public Task <Dictionary<string, string>> LoginAsync(string user)
         {
-            await _connection.InvokeAsync("Login", user);
+           return _connection.InvokeAsync<Dictionary<string,string>>("Login", user);
         }
         public async Task JoinGroup(string user, string groupName)
         {
