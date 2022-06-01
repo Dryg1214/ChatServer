@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ChatClient.Model;
 using ChatClient.ViewModel;
 
 namespace ChatClient
@@ -20,6 +23,7 @@ namespace ChatClient
     /// </summary>
     public partial class CreateChatWindow : Window
     {
+        public ObservableCollection<UserModel> Chats;
         public CreateChatWindow()
         {
             InitializeComponent();
@@ -32,32 +36,52 @@ namespace ChatClient
                 }
             }
         }
+        public CreateChatWindow(ObservableCollection<UserModel> chats)
+        {
+            InitializeComponent();
 
-        //public CreateChatWindow(MainViewModel win)
-        //{
-        //    InitializeComponent();
+            Chats = chats;
 
-        //    wind = win;
-
-        //    foreach (Window window in Application.Current.Windows)
-        //    {
-        //        if (window.GetType() == typeof(Window1))
-        //        {
-        //            this.ListView.ItemsSource = (window as Window1).ListViewUsers.Items;
-        //        }
-        //    }
-        //}
-
-        //
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
+                    this.ListView.ItemsSource = (window as MainWindow).ListViewUsers.Items;
+                }
+            }
+        }
+        
         public delegate void EnteredUsers(string Users);
         public event EnteredUsers? Notify;
+
+        public string User { get; set; } = string.Empty;
         private void CreatChat(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                MainViewModel wind = new MainViewModel();
-                Notify = wind.AddChat; //подписать на событие
-                Notify(TextBoxUsers.Text);
+                List<string> usersGroup = new List<string>();
+                List<string> allUsers = new List<string>();
+                var text = TextBoxUsers.Text.ToString().Split(" ");
+                foreach (var user in text)
+                    usersGroup.Add(user);
+                for (int i = 0; i < ListView.Items.Count; i++)
+                {
+                    UserModel item = (UserModel)ListView.Items[i];
+                    allUsers.Add(item.Username);
+                }
+                foreach (var user in usersGroup)
+                {
+                    if (!allUsers.Contains(user))
+                    {
+                        MessageBox.Show("Incorrect usernames, try again");
+                        return;
+                    }
+                }
+
+                Chats.Add(new UserModel
+                {
+                    Username = TextBoxUsers.Text
+                });
                 this.Close();
 
             }

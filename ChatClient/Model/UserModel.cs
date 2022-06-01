@@ -17,7 +17,7 @@ namespace ChatClient.Model
         {
             get
             {
-                if (Messages.Count <= null)
+                if (Messages != null && Messages.Count!= 0)
                     return Messages.Last().Message;
                 else
                     return " ";

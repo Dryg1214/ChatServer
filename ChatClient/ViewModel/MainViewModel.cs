@@ -9,11 +9,16 @@ using ChatClient.Command;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Windows;
+using ChatClient.Services;
+using System.Windows.Input;
 
 namespace ChatClient.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
+        //private HubConnection _connection = null!;
+        private IChatService chatService;
+
         public ObservableCollection<MessageModel> Messages { get; set; }
 
         public ObservableCollection<UserModel> Users { get; set; }
@@ -43,52 +48,46 @@ namespace ChatClient.ViewModel
                 OnPropertyChanged();
             }
         }
-        //static async Task
-        public void AddChat(string users)
+
+        private bool _isConnected;
+        public bool IsConnected
         {
-            Users.Add(new UserModel
+            get { return _isConnected; }
+            set
             {
-                Username = users,
-                Messages = Messages
-            });
+                _isConnected = value;
+                OnPropertyChanged();
+            }
         }
-        
         public MainViewModel()
         {
             Messages = new ObservableCollection<MessageModel>();
             Users = new ObservableCollection<UserModel>();
             Chats = new ObservableCollection<UserModel>();
+            
+            
+            
             Users.Add(new UserModel
             {
                 Username = $"Hello",
                 Messages = Messages
             });
 
-
-            Action();
-            /*var username = "Aboba_Vovk";
-            var connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/chatroom")
-                .Build();
-            connection.On<string, string>("ReceiveMessage", (user, message) =>
+            Chats.Add(new UserModel
             {
-                AnsiConsole.MarkupLine($"[bold yellow]{user}[/]: [blue]{message}[/]");
+                Username = $"Hello",
+                Messages = Messages
             });
 
-            connection.On<string, string, string>("ReceiveMessageFromGroup", (groupName, user, message) =>
+
+            var username = " ";
+            foreach (Window window in Application.Current.Windows)
             {
-                AnsiConsole.MarkupLine($"[bold red]{groupName}[bold yellow][/] {user}[/]: [blue]{message}[/]");
-            });
-
-            connection.On<string, string>("ReceiveDirectMessage", (user, message) =>
-            {
-                AnsiConsole.MarkupLine($"[bold red]{user}[/]: [blue]{message}[/]");
-            });
-
-            await connection.StartAsync();
-
-            await connection.InvokeAsync("Enter", username);*/
-            //прочитать из файла сообщения и пользователей с сервера
+                if (window.GetType() == typeof(LoginWindow))
+                {
+                    username = (window as LoginWindow).login1.Text;
+                }
+            }
 
 
             SendCommand = new RelayCommand(x =>
@@ -104,25 +103,25 @@ namespace ChatClient.ViewModel
                 Message = "";
             });
 
-            //Messages.Add(new MessageModel
-            //{
-            //    Username = "Aboba",
-            //    Message = "hi, bro",
-            //    Time = DateTime.Now,
-            //    IsNativeOrigin = false,
-            //    FirstMessage = true
-            //});
+            Messages.Add(new MessageModel
+            {
+                Username = "Aboba",
+                Message = "hi, bro",
+                Time = DateTime.Now,
+                IsNativeOrigin = false,
+                FirstMessage = true
+            });
 
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    Messages.Add(new MessageModel
-            //    {
-            //        Username = "SaintPaolo",
-            //        Message = "hi, bro",
-            //        Time = DateTime.Now,
-            //        IsNativeOrigin = true
-            //    });
-            //}
+            for (int i = 0; i < 4; i++)
+            {
+                Messages.Add(new MessageModel
+                {
+                    Username = "SaintPaolo",
+                    Message = "hi, bro",
+                    Time = DateTime.Now,
+                    IsNativeOrigin = true
+                });
+            }
 
             //Messages.Add(new MessageModel
             //{
@@ -144,94 +143,70 @@ namespace ChatClient.ViewModel
 
         }
 
-        public async Task Action()
+        #region Connect Command
+        private ICommand _connectCommand;
+        public ICommand ConnectCommand
         {
-            var username = " ";
-            foreach (Window window in Application.Current.Windows)
+            get
             {
-                if (window.GetType() == typeof(LoginWindow))
-                {
-                    username = (window as LoginWindow).login1.Text;
-                }
+                return _connectCommand ?? (_connectCommand = new RelayCommandAsync(() => Connect()));
             }
-            
-            var connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/chatroom")
-                .Build();
-            Users.Add(new UserModel
-            {
-                Username = username,
-                Messages = Messages
-            });
-            connection.On<string, string>("ReceiveMessage", (user, message) =>
-            {
-                Messages.Add(new MessageModel
-                {
-                    Username = user,
-                    Message = message,
-                    Time = DateTime.Now,
-                    IsNativeOrigin = true
-                });
-            });
-
-            connection.On<string, string, string>("ReceiveMessageFromGroup", (groupName, user, message) =>
-            {
-                
-                //AnsiConsole.MarkupLine($"[bold red]{groupName}[bold yellow][/] {user}[/]: [blue]{message}[/]");
-            });
-
-            connection.On<string, string>("ReceiveDirectMessage", (user, message) =>
-            {
-                Messages.Add(new MessageModel
-                {
-                    Username = user,
-                    Message = message,
-                    Time = DateTime.Now,
-                    IsNativeOrigin = true
-                });
-                //AnsiConsole.MarkupLine($"[bold red]{user}[/]: [blue]{message}[/]");
-            });
-
-            await connection.StartAsync();
-
-            await connection.InvokeAsync("Enter", username);
-
-            while (true)
-            {
-                
-                var message = Message;
-                /*
-                if (message == "exit") break;
-
-                if (message.StartsWith("+"))
-                {
-                    await connection.InvokeAsync("JoinGroup", username, message.Split('+', ' ')[1]);
-                }
-                else if (message.StartsWith("-"))
-                {
-                    await connection.InvokeAsync("LeaveGroup", username, message.Split('-', ' ')[1]);
-                }
-
-                else if (message.StartsWith("#"))
-                {
-                    var groupName = message.Split('#', ' ')[1];
-                    var messageToSend = message.Replace("#" + groupName, "");
-                    await connection.InvokeAsync("SendMessageToGroup", groupName, username, message);
-                }
-
-                else if (message.StartsWith("@"))
-                {
-                    var receiver = message.Split('@', ' ')[1];
-                    var messageToSend = message.Replace("@" + receiver, "");
-                    await connection.InvokeAsync("SendMessageToUser", username, message, receiver);
-                }*/
-
-                if (message != null)
-                    await connection.InvokeAsync("SendMessage", username, message);
-                
-            }
-            await connection.StopAsync();
         }
+        private async Task<bool> Connect()
+        {
+            try
+            {
+                await chatService.ConnectAsync();
+                IsConnected = true;
+                return true;
+            }
+            catch (Exception) { return false; }
+        }
+        #endregion
+
+        #region Login Command
+        private ICommand _loginCommand;
+        public ICommand LoginCommand()
+        {
+            get
+            {
+                return _loginCommand ?? (_loginCommand =
+                    new RelayCommandAsync(() => Login(), (o) => CanLogin()));
+            }
+        }
+        private async Task<bool> Login(string username)
+        {
+            try
+            {
+                List<User> users = new List<User>();
+                users = await chatService.Login(username);
+                if (users != null)
+                {
+                    var messages = new ObservableCollection<MessageModel>();
+                    users.ForEach(u => Users.Add(new UserModel
+                    {
+                        Username = username,
+                        Messages = messages
+                    }));
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Username is already in use");
+                    return false;
+                }
+
+            }
+            catch (Exception) { return false; }
+        }
+
+        private bool CanLogin(string username)
+        {
+            return !string.IsNullOrEmpty(username) && username.Length >= 2 && IsConnected;
+        }
+        #endregion
+
+
 
     }
 }

@@ -48,21 +48,17 @@ namespace ChatClient
 
         private void WindowStateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current != WindowState.Minimized)
+            if (WindowState != WindowState.Minimized)
             {
-                Application.Current.WindowState = WindowState.Maximized;
-                return;
+                WindowState = WindowState.Maximized;
             }
-            if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
-            //else
-            //  Application.Current.MainWindow.WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Normal;
         }
 
         private void PlusChatClick(object sender, MouseButtonEventArgs e)
         {
-//((MainViewModel)DataContext).Chats
-            var Window = new CreateChatWindow();
+            var Window = new CreateChatWindow(((MainViewModel)DataContext).Chats);
             Window.Show();
             
         }

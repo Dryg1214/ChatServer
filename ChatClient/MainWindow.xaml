@@ -135,6 +135,7 @@
                       Background="Transparent"
                       BorderThickness="0"
                       Grid.Row="1"
+                      SelectedItem="{Binding SelectedChat}"
                       ItemContainerStyle="{StaticResource ContactCard}">
  
             </ListView>

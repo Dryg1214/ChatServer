@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace ChatClient
     /// </summary>
     public partial class LoginWindow : Window
     {
-        int aboba = 0;
+        private HubConnection _connection = null!;
         public LoginWindow()
         {
             InitializeComponent();
