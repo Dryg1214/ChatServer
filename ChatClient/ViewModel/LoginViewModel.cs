@@ -42,7 +42,7 @@ namespace ChatClient.ViewModel
         {
             get
             {
-                return _connectCommand ?? (_connectCommand = new RelayCommandAsync(() => Connect()));
+                return _connectCommand ?? (_connectCommand = new RelayCommandAsync(Connect));
             }
         }
         private async Task<bool> Connect()
@@ -70,7 +70,12 @@ namespace ChatClient.ViewModel
         private async Task<bool> Login()
         {
             try
-            {
+            {   
+                if (IsConnected == false)
+                {
+                    MessageBox.Show("You dont connect to a server");
+                    return false;
+                }
                 var service = new ChatService();
                 var mainViewModel = new MainViewModel(service);
                 if (await service.Login(_userName))

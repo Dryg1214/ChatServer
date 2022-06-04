@@ -8,7 +8,6 @@ namespace ChatClient.Services
 {
     public class ChatService : IChatService
     {
-
         public IObservable<string> UserJoined => _userJoined;
 
         public IObservable<MessageModel> MessageReceived => _messageReceived;

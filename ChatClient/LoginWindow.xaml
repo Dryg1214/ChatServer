@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:ChatClient" xmlns:viewmodel="clr-namespace:ChatClient.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400"
@@ -13,6 +14,11 @@
         <viewmodel:LoginViewModel/>
     </Window.DataContext>
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ConnectCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid>
@@ -40,8 +46,8 @@
                            Foreground="White"
                            HorizontalAlignment="Center"/>
             </StackPanel>
-            
-            
+
+
             <StackPanel Grid.Row="1" >
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="login1" FontFamily="Helvetica"
@@ -64,7 +70,7 @@
                     </TextBox>
 
                 </StackPanel>
-            
+
                 <Border Width="250"
                             Height="2"
                             Background="White"

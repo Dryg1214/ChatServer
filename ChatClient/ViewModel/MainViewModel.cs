@@ -12,12 +12,9 @@ namespace ChatClient.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
-        //private HubConnection _connection = null!;
         public ObservableCollection<MessageModel> Messages { get; set; }
 
         public ObservableCollection<UserModel> Users { get; set; }
-
-        public ObservableCollection<UserModel> Chats { get; set; }
 
         public RelayCommand SendCommand { get; set; }
 
@@ -32,9 +29,9 @@ namespace ChatClient.ViewModel
             }
         }
 
-        private string _message;
+        private string? _message;
 
-        public string Message
+        public string? Message
         {
             get { return _message; }
             set

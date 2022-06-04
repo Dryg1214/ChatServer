@@ -58,8 +58,6 @@ namespace ChatClient
 
         private void PlusChatClick(object sender, MouseButtonEventArgs e)
         {
-            var Window = new CreateChatWindow(((MainViewModel)DataContext).Chats);
-            Window.Show();
             
         }
 
