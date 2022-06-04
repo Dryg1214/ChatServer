@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 
+
 namespace ChatServer
 {
     public class ChatHub : Hub

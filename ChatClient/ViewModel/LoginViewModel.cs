@@ -12,7 +12,7 @@ namespace ChatClient.ViewModel
 {
     public class LoginViewModel : ObservableObject
     {
-        private IChatService chatService;
+        private IChatService chatService = new ChatService();
 
         private bool _isConnected;
         public bool IsConnected
@@ -76,9 +76,8 @@ namespace ChatClient.ViewModel
                     MessageBox.Show("You dont connect to a server");
                     return false;
                 }
-                var service = new ChatService();
-                var mainViewModel = new MainViewModel(service);
-                if (await service.Login(_userName))
+                var mainViewModel = new MainViewModel(chatService);
+                if (await chatService.Login(_userName))
                 {
                     new MainWindow { DataContext = mainViewModel }.Show();
                 }
