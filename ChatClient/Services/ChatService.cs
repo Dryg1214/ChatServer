@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using ChatClient.Model;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 
 namespace ChatClient.Services
 {
     public class ChatService : IChatService
     {
-        private HubConnection _connection;
-        private string _url = "http://localhost:5000/chatex";
-        public async Task ConnectAsync()
+
+        public IObservable<string> UserJoined => _userJoined;
+
+        public IObservable<MessageModel> MessageReceived => _messageReceived;
+
+        public async Task Connect()
         {
             _connection = new HubConnectionBuilder()
                .WithUrl("http://localhost:5000/chatroom")
@@ -30,33 +32,26 @@ namespace ChatClient.Services
             });
              */
 
-            _connection.On<string, string>("ReceiveMessage", (user, message) => { });
-
-            _connection.On<string, string, string>("ReceiveMessageFromGroup", (groupName, user, message) => { });
-
-            _connection.On<string, string>("ReceiveDirectMessage", (user, message) => { });
+            _connection.On<string>(nameof(UserJoined), message => _userJoined.OnNext(message));
+            _connection.On<string, string>(nameof(MessageReceived), (sender, message) => _messageReceived.OnNext(new MessageModel(sender, message)));
 
             await _connection.StartAsync();
         }
-        public Task <Dictionary<string, string>> LoginAsync(string user)
+
+        public Task<bool> Login(string login)
         {
-           return _connection.InvokeAsync<Dictionary<string,string>>("Login", user);
+            return Connection.InvokeAsync<bool>("Login", login);
         }
-        public async Task JoinGroup(string user, string groupName)
+
+        public async Task SendMessage(string receiver, string message)
         {
-            await _connection.InvokeAsync("JoinGroup", user, groupName);
+            await Connection.InvokeAsync("SendMessage", receiver, message);
         }
-        public async Task LeaveGroup(string user, string groupName)
-        {
-            await _connection.InvokeAsync("LeaveGroup", user, groupName);
-        }
-        public async Task SendMessageToGroup(string groupName, string user, string message)
-        {
-            await _connection.InvokeAsync("SendMessageToGroup", groupName, user, message);
-        }
-        public async Task SendMessageToUser(string user, string message, string receiver)
-        {
-            await _connection.InvokeAsync("SendMessageToUser", user, message, receiver);
-        }
+
+        private HubConnection Connection => _connection ?? throw new InvalidOperationException();
+
+        private HubConnection? _connection;
+        private Subject<string> _userJoined = new();
+        private Subject<MessageModel> _messageReceived = new();
     }
 }

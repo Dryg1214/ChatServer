@@ -1,61 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChatClient.Model;
+using System.Linq;
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Concurrent;
 
 namespace ChatServer
 {
     public class ChatHub : Hub
     {
-        private Dictionary<string, string> Connections = new();
+        private readonly object _lock = new();
+        private readonly Dictionary<string, string> _loginToId = new();
+        private readonly Dictionary<string, string> _idToLogin = new();
 
-        static List<string> Users = new List<string>();
-        public Task SendMessage(string user, string message)
+        public async Task<bool> Login(string login)
         {
-            return Clients.Others.SendAsync("ReceiveMessage", user, message);
-        }
+            string[] logins;
 
-        //public Task Login(string user)
-        //{
-        //    Connections[user] = Context.ConnectionId;
-        //    return Clients.Others.SendAsync("ReceiveMessage", user, $"{user} is connected");
-        //}
-        public Dictionary<string, string> Login(string name)
-        {
-            if (!Connections.ContainsKey(name))
+            lock (_lock)
             {
-                Console.WriteLine($"++ {name} logged in");
-                Dictionary<string, string> users = Connections;
-                
-                var added = Connections.TryAdd(name, Context.ConnectionId);
-                if (!added) return null;
-                return users;
+                if (_loginToId.ContainsKey(login))
+                    return false;
+
+                logins = _loginToId.Keys.ToArray();
+
+                _loginToId.Add(login, Context.ConnectionId);
+                _idToLogin.Add(Context.ConnectionId, login);
             }
-            return null;
+
+            foreach (var existedLogin in logins)
+                await Clients.Caller.SendAsync("UserJoined", existedLogin);
+
+            await Clients.Others.SendAsync("UserJoined", login);
+
+            return true;
         }
 
-
-        public async Task JoinGroup(string user, string groupName)
+        public Task SendMessage(string receiver, string message)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).SendAsync("ReceiveMessageFromGroup", groupName, user, "has joined the group");
+            var sender = ResolveCallerLogin();
+            return Clients.Client(ResolveConnectionId(receiver)).SendAsync("MessageReceived", sender, message);
         }
 
-        public async Task LeaveGroup(string user, string groupName)
+        private string ResolveCallerLogin()
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).SendAsync("ReceiveMessageFromGroup", groupName, user, "has left ed the group");
+            lock (_lock)
+            {
+                return _idToLogin[Context.ConnectionId];
+            }
         }
 
-        public Task SendMessageToGroup(string groupName, string user, string message)
+        private string ResolveConnectionId(string login)
         {
-            return Clients.Group(groupName).SendAsync("ReceiveMessageFromGroup", groupName, user, message);
-        }
-
-        public Task SendMessageToUser(string user, string message, string receiver)
-        {
-            return Clients.Client(Connections[receiver]).SendAsync("ReceiveDirectMessage", user, message);
+            lock (_lock)
+            {
+                return _loginToId[login];
+            }
         }
 
     }

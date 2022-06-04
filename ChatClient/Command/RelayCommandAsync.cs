@@ -21,7 +21,7 @@ namespace ChatClient.Command
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             if (!isExecuting && _canExecute == null)
                 return true;

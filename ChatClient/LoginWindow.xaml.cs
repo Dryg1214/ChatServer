@@ -22,22 +22,9 @@ namespace ChatClient
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private HubConnection _connection = null!;
         public LoginWindow()
         {
             InitializeComponent();
-        }
-        private void login_Click(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = new MainWindow(login1.Text);
-            mainWindow.Show();
-            this.Close();
-            //MessageBox.Show("Меня нажали я ЛОГИН");
-        }
-
-        private void register_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Меня нажали я Регистрация");
         }
     }
 }

@@ -3,11 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ChatClient"
+        xmlns:local="clr-namespace:ChatClient" xmlns:viewmodel="clr-namespace:ChatClient.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <viewmodel:LoginViewModel/>
+    </Window.DataContext>
+
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -47,11 +53,11 @@
                              Foreground="White"
                              Background="Transparent"
                              BorderThickness="0"
-                             Width="235"
+                             Width="240"
                              HorizontalContentAlignment="Left"
                              Opacity="0.5"
                              Height="25"
-                             Margin="63,0,0,0">
+                             Margin="80,0,0,0">
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding LoginCommand}" Key="Return"/>
                         </TextBox.InputBindings>
@@ -88,10 +94,8 @@
                             Opacity="0.5"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                    <Button x:Name="login" Width="100" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="login_Click" Command="{Binding LoginCommand}"/>
-                    <Button x:Name="register" Width="100" Height="40" Content="REGISTER" Click="register_Click"/>
+                    <Button x:Name="login" Width="100" Height="40" Content="LOGIN" Margin="150,0,60,0" Command="{Binding LoginCommand}"/>
                 </StackPanel>
-
             </StackPanel>
 
 
