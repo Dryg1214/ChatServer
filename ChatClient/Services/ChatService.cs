@@ -18,19 +18,6 @@ namespace ChatClient.Services
                .WithUrl("http://localhost:5000/chatroom")
                .Build();
 
-            /*
-              _connection.On<IEnumerable<string>>("UpdateUsersAsync", users =>
-            {
-                UserList = new ObservableCollection<string>(users);
-            });
-
-            _connection.On<string, string>("SendMessageAsync", (user, message) =>
-            {
-                var item = $"{user} says {message}";
-                MessageList.Add(item);
-            });
-             */
-
             _connection.On<string>(nameof(UserJoined), message => _userJoined.OnNext(message));
             _connection.On<string, string>(nameof(MessageReceived), (sender, message) => _messageReceived.OnNext(new MessageModel(sender, message)));
 

@@ -21,7 +21,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
-            <ColumnDefinition  Width="200"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.ColumnSpan="3"
@@ -67,8 +66,9 @@
             </Grid>
         </Border>
 
+    
         <Grid Background="#2F3150"
-              Grid.Column="2"
+              Grid.Column="0"
               Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -82,41 +82,7 @@
                    Foreground="Chartreuse"
                    Margin="8,0,0,0"/>
 
-            <ListView x:Name="ListViewUsers" 
-                      ItemsSource="{Binding Users}"
-                      x:FieldModifier="public"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      Grid.Row="1"
-                      ItemContainerStyle="{StaticResource ContactCard}"/>
-                        
-        </Grid>
-
-        <Grid Background="#2F3150"
-              Grid.Column="0"
-              Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition/>
-                <RowDefinition Height="60"/>
-            </Grid.RowDefinitions>
-
-            <Label Content="Chats"
-                   VerticalAlignment="Center"
-                   FontWeight="Medium"
-                   Foreground="Chartreuse"
-                   Margin="8,0,0,0"/>
-
-            <Image Source="/plus1.jpg"           
-                               Width="30" Height="30"
-                               HorizontalAlignment="Right"
-                               RenderOptions.BitmapScalingMode="Fant"
-                               Margin="0,0,20,0">
-                   <Image.Effect>
-                <DropShadowEffect Color="DarkSeaGreen"  ShadowDepth="0" Direction="0" BlurRadius="25"/>
-                </Image.Effect>
-             
-            </Image>
+            
             <!--ListView ItemsSource="{Binding Users}"
                       Background="Transparent"
                       BorderThickness="0"
@@ -124,14 +90,13 @@
                       ItemContainerStyle="{StaticResource ContactCard}"/-->
 
             <ListView x:Name="ListViewChats" 
-                      ItemsSource="{Binding Chats}"
+                      ItemsSource="{Binding Users}"
                       x:FieldModifier="public"
                       Background="Transparent"
                       BorderThickness="0"
                       Grid.Row="1"
-                      SelectedItem="{Binding SelectedChat}"
+                      SelectedItem="{Binding SelectedUser}"
                       ItemContainerStyle="{StaticResource ContactCard}">
- 
             </ListView>
             
             <StackPanel Grid.Row="2"
@@ -143,7 +108,8 @@
                         Margin="18,0,0,0"/>
 
                 <StackPanel VerticalAlignment="Center">
-                    <Label Content="Username"
+                    <Label x:Name="LoginUser"
+                            Content="Username"
                            Foreground="White"
                            FontWeight="SemiBold"
                            Margin="0, -5, 0, -5"/>
@@ -197,7 +163,7 @@
 
             </Grid>
 
-            <ListView ItemsSource="{Binding SelectedChat.Messages}"
+            <ListView ItemsSource="{Binding SelectedUser.Messages}"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"

@@ -79,7 +79,9 @@ namespace ChatClient.ViewModel
                 var mainViewModel = new MainViewModel(chatService);
                 if (await chatService.Login(_userName))
                 {
-                    new MainWindow { DataContext = mainViewModel }.Show();
+                    MainWindow mainWindow = new MainWindow { DataContext = mainViewModel };
+                    mainWindow.LoginUser.Content = _userName;
+                    mainWindow.Show();
                 }
                 else
                 {
