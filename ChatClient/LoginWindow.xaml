@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400"
         AllowsTransparency="True" Background="Transparent"
-        WindowStyle="None" ResizeMode="NoResize">
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewmodel:LoginViewModel/>
@@ -38,7 +39,7 @@
 
 
             <StackPanel VerticalAlignment="Center">
-                <Image Source="Images/я2.png" Width ="120"/>
+                <Image Source="Images/I'am.png" Width ="120"/>
                 <TextBlock Text="Kazantsev Chat"
                            FontWeight="Light"
                            FontFamily="helvetica"

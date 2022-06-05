@@ -10,12 +10,12 @@ namespace ChatClient.Command
     public class RelayCommandAsync : ICommand
     {
         private readonly Func<Task> _execute;
-        private readonly Predicate<object?> _canExecute;
+        private readonly Predicate<object?>? _canExecute;
         private bool isExecuting;
 
         public RelayCommandAsync(Func<Task> execute) : this(execute, null) { }
 
-        public RelayCommandAsync(Func<Task> execute, Predicate<object?> canExecute)
+        public RelayCommandAsync(Func<Task> execute, Predicate<object?>? canExecute)
         {
             _execute = execute;
             _canExecute = canExecute;
@@ -25,8 +25,8 @@ namespace ChatClient.Command
         {
             if (!isExecuting && _canExecute == null)
                 return true;
-
-            return (!isExecuting && _canExecute(parameter));
+            
+            return (!isExecuting && _canExecute is not null && _canExecute(parameter));
         }
 
         public event EventHandler? CanExecuteChanged

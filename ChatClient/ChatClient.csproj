@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="Images\я2.png">
+    <Resource Include="Images\I%27am.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

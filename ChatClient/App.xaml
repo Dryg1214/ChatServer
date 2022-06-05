@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ChatClient"
              StartupUri="LoginWindow.xaml">
-             <!--StartupUri="MainWindow.xaml"-->
     <Application.Resources>
-        <!--BitmapImage x:Key="myImage" UriSource="Images/я2.png"/-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Themes/ChatItem.xaml"/>
@@ -13,6 +11,5 @@
                 <ResourceDictionary Source="./Themes/MessageBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        <!--BitmapImage x:Key="myImage" UriSource="Images/IconSender.png"/-->
     </Application.Resources>
 </Application>

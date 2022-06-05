@@ -9,8 +9,9 @@
         Background = "#36393F"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip">
-
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen">
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -81,8 +82,6 @@
                    FontWeight="Medium"
                    Foreground="Chartreuse"
                    Margin="8,0,0,0"/>
-
-   
 
             <ListView x:Name="ListViewChats" 
                       ItemsSource="{Binding Users}"

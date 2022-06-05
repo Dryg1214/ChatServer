@@ -16,7 +16,7 @@ namespace ChatClient.ViewModel
 
         public ObservableCollection<UserModel> Users { get; set; } = new ();
 
-        public RelayCommand? SendCommand { get; set; }
+        
 
         private UserModel? _selectedUser;
         public UserModel? SelectedUser
