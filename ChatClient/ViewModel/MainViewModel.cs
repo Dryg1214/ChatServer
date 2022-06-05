@@ -28,7 +28,7 @@ namespace ChatClient.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        
         private string? _message;
 
         public string? _loginUser;
