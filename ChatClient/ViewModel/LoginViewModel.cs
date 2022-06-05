@@ -81,6 +81,7 @@ namespace ChatClient.ViewModel
                 {
                     MainWindow mainWindow = new MainWindow { DataContext = mainViewModel };
                     mainWindow.LoginUser.Content = _userName;
+                    mainViewModel._loginUser = _userName;
                     mainWindow.Show();
                 }
                 else

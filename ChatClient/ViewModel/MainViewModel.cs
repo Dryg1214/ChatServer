@@ -31,6 +31,7 @@ namespace ChatClient.ViewModel
 
         private string? _message;
 
+        public string? _loginUser;
         public string? Message
         {
             get { return _message; }
@@ -58,14 +59,16 @@ namespace ChatClient.ViewModel
                 //// TODO
             });
 
-            //Messages = new ObservableCollection<MessageModel>();
-            //Users = new ObservableCollection<UserModel>();
-            
+            SendCommand = new RelayCommand(x =>
+            {
+                Messages.Add(new MessageModel(_loginUser!, Message!));
+                Message = "";
+            });
         }
 
-      
 
-       
+
+
 
 
 
