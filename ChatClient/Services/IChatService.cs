@@ -12,7 +12,7 @@ namespace ChatClient.Services
 
         Task Connect();
 
-        Task<bool> Login(string login);
+        Task<bool> Login(string? login);
 
         Task SendMessage(string receiver, string message);
     }

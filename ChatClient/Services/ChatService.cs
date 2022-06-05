@@ -37,7 +37,7 @@ namespace ChatClient.Services
             await _connection.StartAsync();
         }
 
-        public Task<bool> Login(string login)
+        public Task<bool> Login(string? login)
         {
             return Connection.InvokeAsync<bool>("Login", login);
         }

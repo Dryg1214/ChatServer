@@ -73,7 +73,7 @@ namespace ChatClient.ViewModel
             {   
                 if (IsConnected == false)
                 {
-                    MessageBox.Show("You dont connect to a server");
+                    MessageBox.Show("You don't connect to a server");
                     return false;
                 }
                 var mainViewModel = new MainViewModel(chatService);

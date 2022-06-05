@@ -16,10 +16,10 @@ namespace ChatClient.ViewModel
 
         public ObservableCollection<UserModel> Users { get; set; }
 
-        public RelayCommand SendCommand { get; set; }
+        public RelayCommand? SendCommand { get; set; }
 
-        private UserModel _selectedChat;
-        public UserModel SelectedChat
+        private UserModel? _selectedChat;
+        public UserModel? SelectedChat
         {
             get { return _selectedChat; }
             set

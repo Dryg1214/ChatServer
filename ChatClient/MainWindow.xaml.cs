@@ -20,15 +20,9 @@ namespace ChatClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string username;
         public MainWindow()
         {
             InitializeComponent();
-        }
-        public MainWindow(string user)
-        {
-            InitializeComponent();
-            username = user;
         }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -54,11 +48,6 @@ namespace ChatClient
             }
             else
                 WindowState = WindowState.Normal;
-        }
-
-        private void PlusChatClick(object sender, MouseButtonEventArgs e)
-        {
-            
         }
 
     }

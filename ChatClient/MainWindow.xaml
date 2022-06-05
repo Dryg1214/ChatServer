@@ -107,8 +107,7 @@
                    Foreground="Chartreuse"
                    Margin="8,0,0,0"/>
 
-            <Image Source="/plus1.jpg"
-                    MouseLeftButtonDown="PlusChatClick"            
+            <Image Source="/plus1.jpg"           
                                Width="30" Height="30"
                                HorizontalAlignment="Right"
                                RenderOptions.BitmapScalingMode="Fant"
