@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+
     <Style TargetType="TextBox" x:Key="MessageBox">
         <Setter Property="Foreground" Value="LightGray"/>
         <Setter Property="FontWeight" Value="Medium"/>
@@ -23,8 +25,10 @@
                                      CaretBrush="LightGray"
                                      Margin="8,0,0,0"
                                      Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                
                                 <TextBox.InputBindings>
-                                    <KeyBinding Command="{Binding SendCommand}" Key="Return"/>
+                                    <!--<KeyBinding Command="{Binding SendCommand}" Key="Return"/>-->
+                                    <KeyBinding Command="{Binding SendTextMessageCommand}" Key="Return"/>
                                 </TextBox.InputBindings>
                             </TextBox>
 

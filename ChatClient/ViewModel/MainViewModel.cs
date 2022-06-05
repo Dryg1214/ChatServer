@@ -12,6 +12,7 @@ namespace ChatClient.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
+        private IChatService _chatService;
         public ObservableCollection<MessageModel> Messages { get; set; } = new();
 
         public ObservableCollection<UserModel> Users { get; set; } = new ();
@@ -21,7 +22,28 @@ namespace ChatClient.ViewModel
         private UserModel? _selectedUser;
         public UserModel? SelectedUser
         {
-            get { return _selectedUser; }
+            get 
+            {
+                //if (_selectedUser != null)
+                //{
+
+                //    //foreach (Window window in Application.Current.Windows)
+                //    //{
+                //    //    if (window.GetType() == typeof(MainWindow))
+                //    //    {
+                //    //        (window as MainWindow).ListMessages.Items.Clear();
+                //    //        (window as MainWindow).ListMessages.Items.Add(_selectedUser.Messages);
+                //    //    }
+                //    //}
+                //    foreach (var user in Users)
+                //    {
+                //        if (user.Username == _selectedUser.Username)
+                //            Messages = user.Messages!;
+                //    }
+                    
+                //}
+                return _selectedUser; 
+            }
             set
             {
                 _selectedUser = value;
@@ -42,8 +64,39 @@ namespace ChatClient.ViewModel
             }
         }
 
+        #region Send Text Message Command
+        private ICommand _sendTextMessageCommand;
+        public ICommand SendTextMessageCommand
+        {
+            get
+            {
+                return _sendTextMessageCommand ?? (_sendTextMessageCommand =
+                    new RelayCommandAsync(SendTextMessage));
+            }
+        }
+        private async Task<bool> SendTextMessage()
+        {
+            try
+            {
+                if (_selectedUser == null)
+                    throw new InvalidOperationException();
+                var receiver = _selectedUser.Username;
+                await _chatService.SendMessage(receiver, Message);
+                return true;
+            }
+            catch (Exception) { return false; }
+            finally
+            {
+                var newMessage = new MessageModel(_loginUser!, Message!);
+                _selectedUser.Messages.Add(newMessage);
+                Message = string.Empty;
+            }
+        }
+        #endregion
+
         public MainViewModel(IChatService chatService)
         {
+            _chatService = chatService;
             chatService.UserJoined.Subscribe(login =>
             {
                 //Application.Current.Dispatcher.VerifyAccess();
@@ -56,14 +109,18 @@ namespace ChatClient.ViewModel
             chatService.MessageReceived.Subscribe(message =>
             {
                 //Application.Current.Dispatcher.VerifyAccess();
-                //// TODO
+                //foreach(var user in Users)
+                //{
+                //    if (user.Username == message.Sender)
+                //        user.Messages.Add(message);
+                //}
+                Messages.Add(message);
             });
 
-            SendCommand = new RelayCommand(x =>
-            {
-                Messages.Add(new MessageModel(_loginUser!, Message!));
-                Message = "";
-            });
+            //SendCommand = new RelayCommand(x =>
+            //{
+            //    Messages.Add(new MessageModel(_loginUser!, Message!));
+            //});
         }
 
 

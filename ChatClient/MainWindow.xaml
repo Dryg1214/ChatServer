@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ChatClient" xmlns:viewmodel="clr-namespace:ChatClient.ViewModel"
+        xmlns:local="clr-namespace:ChatClient" xmlns:viewmodel="clr-namespace:ChatClient.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         mc:Ignorable="d"
         Height="650" Width="1200"
         Background = "#36393F"
@@ -82,12 +82,7 @@
                    Foreground="Chartreuse"
                    Margin="8,0,0,0"/>
 
-            
-            <!--ListView ItemsSource="{Binding Users}"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      Grid.Row="1"
-                      ItemContainerStyle="{StaticResource ContactCard}"/-->
+   
 
             <ListView x:Name="ListViewChats" 
                       ItemsSource="{Binding Users}"
@@ -162,8 +157,10 @@
                 </StackPanel>
 
             </Grid>
-
-            <ListView ItemsSource="{Binding SelectedUser.Messages}"
+            
+            <ListView x:Name="ListMessages"
+                      x:FieldModifier="public"
+                      ItemsSource="{Binding SelectedUser.Messages}"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"

@@ -12,7 +12,7 @@ namespace ChatClient.ViewModel
 {
     public class LoginViewModel : ObservableObject
     {
-        private IChatService chatService = new ChatService();
+        private IChatService _chatService = new ChatService();
 
         private bool _isConnected;
         public bool IsConnected
@@ -49,7 +49,7 @@ namespace ChatClient.ViewModel
         {
             try
             {
-                await chatService.Connect();
+                await _chatService.Connect();
                 IsConnected = true;
                 return true;
             }
@@ -76,13 +76,14 @@ namespace ChatClient.ViewModel
                     MessageBox.Show("You don't connect to a server");
                     return false;
                 }
-                var mainViewModel = new MainViewModel(chatService);
-                if (await chatService.Login(_userName))
+                var mainViewModel = new MainViewModel(_chatService);
+                if (await _chatService.Login(_userName))
                 {
                     MainWindow mainWindow = new MainWindow { DataContext = mainViewModel };
                     mainWindow.LoginUser.Content = _userName;
                     mainViewModel._loginUser = _userName;
                     mainWindow.Show();
+                    Application.Current.MainWindow.Close();
                 }
                 else
                 {
